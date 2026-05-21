@@ -12,3 +12,6 @@ dependencies.lock
 *.swp
 Thumbs.db
 Desktop.ini
+
+# Audio analysis debug output (optional: python tools/analyze_bit.py track.mp3 --json)
+tools/bit_analysis.json

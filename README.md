@@ -21,14 +21,20 @@ Part of the [ESP32_microcontroller_project_IoT](https://github.com/mgadek84/ESP3
 2. Start the **same MP3** when the matrix shows the **3-2-1** countdown (3 s after boot).
 3. Timeline is in `main/bit_timeline.h` (regenerate: `python tools/analyze_bit.py`).
 
-To use another track, replace the MP3 path in `tools/analyze_bit.py` and rerun the script.
+To use another track:
+
+```powershell
+pip install -r tools/requirements.txt
+python tools/analyze_bit.py "path\to\track.mp3"
+```
+
+Optional debug dump: add `--json` (writes `tools/bit_analysis.json`, gitignored).
 
 ## Build & flash
 
 Requires [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/get-started/index.html) v5.x / v6.x and ESP-IDF PowerShell (or `export.ps1`).
 
 ```powershell
-cd hello_s3_kopia
 idf.py set-target esp32s3
 idf.py -p COM3 build flash monitor
 ```
@@ -40,8 +46,12 @@ Replace `COM3` with your port. Exit monitor: **Ctrl+]**.
 ```text
 ├── CMakeLists.txt
 ├── sdkconfig.defaults
+├── tools/
+│   ├── analyze_bit.py      # MP3 → main/bit_timeline.h
+│   └── requirements.txt
 └── main/
     ├── hello_s3.c
+    ├── bit_timeline.h      # generated timeline
     ├── CMakeLists.txt
     └── idf_component.yml   # espressif/led_strip
 ```

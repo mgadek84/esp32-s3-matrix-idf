@@ -27,7 +27,6 @@ static const char *TAG = "bit_rytm";
 
 static led_strip_handle_t s_strip;
 static uint8_t s_buf[LED_COUNT][3];
-static uint8_t s_work[LED_COUNT][3];
 
 typedef struct {
     uint32_t t_end_ms;
@@ -137,12 +136,11 @@ static void push_pulse(uint32_t now_ms, uint8_t kind, uint8_t r, uint8_t g, uint
 
 static void effect_kick(uint8_t r, uint8_t g, uint8_t b, uint8_t param)
 {
-    uint8_t gain = clamp_u8(20 + (param >> 1));
-    buffer_add_all(r, g, b);
-    (void)gain;
+    uint8_t kr = clamp_u8((int)r + (param >> 2));
+    buffer_add_all(kr, g, b);
     for (int y = 0; y < 3; y++) {
         for (int x = 0; x < MATRIX_W; x++) {
-            buffer_add_px(xy_to_i(x, y), r, 0, 4);
+            buffer_add_px(xy_to_i(x, y), kr, 0, 4);
         }
     }
 }
@@ -198,13 +196,13 @@ static void effect_drop(uint8_t r, uint8_t g, uint8_t b, uint32_t phase)
 
 static void effect_break(uint8_t r, uint8_t g, uint8_t b, uint32_t phase)
 {
+    (void)r;
     int cx = (phase / 10) % MATRIX_W;
     for (int y = 0; y < MATRIX_H; y++) {
         for (int x = 0; x < MATRIX_W; x++) {
             int dist = (x > cx) ? (x - cx) : (cx - x);
             uint8_t fade = clamp_u8((int)b - dist * 4);
             buffer_add_px(xy_to_i(x, y), 0, g >> 1, fade);
-            (void)r;
         }
     }
 }
