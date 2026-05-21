@@ -15,7 +15,13 @@ Part of the [ESP32_microcontroller_project_IoT](https://github.com/mgadek84/ESP3
 
 ## What it does
 
-Simple **rainbow** effect: full matrix cycles through red → orange → yellow → green → cyan → blue → violet (no white flash; channels kept moderate).
+**Beat-sync light show** for *NO REPLY - NTPV…* (~128 s, ~103 BPM): kicks, snares, bass, hi-hats and section changes drive flashes, ripples and color moods on the 8×8 matrix.
+
+1. Flash firmware, open monitor.
+2. Start the **same MP3** when the matrix shows the **3-2-1** countdown (3 s after boot).
+3. Timeline is in `main/bit_timeline.h` (regenerate: `python tools/analyze_bit.py`).
+
+To use another track, replace the MP3 path in `tools/analyze_bit.py` and rerun the script.
 
 ## Build & flash
 
